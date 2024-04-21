@@ -1,0 +1,26 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+dataset=pd.read_csv('Mall_Customers.csv')
+x=dataset.iloc[:,[3,4]].values
+from sklearn.cluster import KMeans
+wcss=[]
+for i in range(1,11):
+    km=KMeans(n_clusters=i,init='k-means++',random_state=0)
+    km.fit(x)
+    wcss.append(km.inertia_)
+plt.plot(range(1,11),wcss)
+plt.title('elbow method')
+plt.xlabel('number of clusters')
+plt.ylabel('wcss')
+plt.show()
+km=KMeans(n_clusters=5,init='k-means++',random_state=0)
+y_kmean=km.fit_predict(x)
+print(y_kmean)
+plt.scatter(x[y_kmean==0,0],x[y_kmean==0,1],s=100,color='red')
+plt.scatter(x[y_kmean==1,0],x[y_kmean==1,1],s=100,color='blue')
+plt.scatter(x[y_kmean==2,0],x[y_kmean==2,1],s=100,color='purple')
+plt.scatter(x[y_kmean==3,0],x[y_kmean==3,1],s=100,color='black')
+plt.scatter(x[y_kmean==4,0],x[y_kmean==4,1],s=100,color='green')
+plt.show()
+print(km.predict([[30,20]]))
